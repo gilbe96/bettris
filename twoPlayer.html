@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bettris</title>
+    <link rel="stylesheet" href="support/css/style.css" />
+    <script src="support/js/p5.min.js"></script>
+    <script src="support/js/backGround.js"></script>
+    <script src="support/js/jquery/3.4.0/jquery.min.js"></script>
+    <script src="support/js/twoPlayer/GameBoard.js"></script>
+    <script src="support/js/twoPlayer/Tetrimino.js"></script>
+    <script src="support/js/twoPlayer/TetriminoTwo.js"></script>
+  </head>
+  <body>
+    <div id="openModal" class="modalDialog">
+      <div class="modalContent">
+        <div>
+          <h2>GAME OVER</h2>
+          <h3 id="winner">not</h3>
+          <p id="end-level"></p>
+          <p id="end-score"></p>
+          <p id="end-score2"></p>
+          <div class="modalButton">
+            <button class="againGame" onclick="startAgain()">Again</button>
+            <a href="index.html"><button class="backMenu">Back</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <audio id="audio" loop="true">
+      <source src="support/audio/audio.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="brokenRow">
+      <source src="support/audio/broken.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="gameOver">
+      <source src="support/audio/over.mp3" type="audio/mp3" />
+    </audio>
+    <script>
+      // open modal
+      function clouseGame(num) {
+        if (document.getElementById("winner").innerHTML == "not") {
+          document.getElementById("audio").pause();
+          document.getElementById("gameOver").play();
+          let winner = "";
+          let val = 0;
+          let endText = "";
+          let endText2 = "";
+          if (num == 1) {
+            made_lines -= 10;
+            made_lines = made_lines < 0 ? 0 : made_lines;
+            endText = `End score of Player 1: ${made_lines} points (Penalty: -10 points)`;
+            endText2 = `End score of Player 2: ${made_lines2} points`;
+          } else {
+            made_lines2 -= 10;
+            made_lines2 = made_lines2 < 0 ? 0 : made_lines2;
+            endText = `End score of Player 1: ${made_lines} points`;
+            endText2 = `End score of Player 2: ${made_lines2} points (Penalty: -10 points)`;
+          }
+          if (made_lines > made_lines2) {
+            winner = "The Winner is the Player 1";
+          } else if (made_lines < made_lines2) {
+            winner = "The Winner is the Player 2";
+          } else {
+            winner = "Game Tie";
+          }
+          let endlevel = `Last level: ${level}`;
+          document.getElementById("winner").innerHTML = winner;
+          document.getElementById("end-score").innerHTML = endText;
+          document.getElementById("end-score2").innerHTML = endText2;
+          document.getElementById("end-level").innerHTML = endlevel;
+          document.getElementById("openModal").style.display = "block";
+        }
+      }
+
+      // again Game
+      function startAgain() {
+        document.getElementById("audio").play();
+        document.getElementById("openModal").style.display = "none";
+        document.getElementById("winner").innerHTML = "not";
+        gameBoard = new GameBoard();
+        tetrimino = new Tetrimino();
+        tetrimino2 = new TetriminoTwo();
+        made_lines = 0;
+        made_lines2 = 0;
+        level = 1;
+      }
+
+      // music
+      $(document).ready(function () {
+        document.getElementById("audio").play();
+      });
+
+      // vars
+      const gameboard_margin = 10;
+      let regulator_speed_keys = 0;
+      let regulator_falled = 0;
+      let regulator_falled2 = 0;
+      let made_lines = 0;
+      let made_lines2 = 0;
+      const speeds = [500, 350, 150, 50, 5];
+      let level = 1;
+
+      // Automatically download
+      setInterval(() => {
+        if (millis() - regulator_falled < 200) {
+          return;
+        }
+        regulator_falled = millis();
+        tetrimino.moveDown();
+      }, speeds[level - 1]);
+      setInterval(() => {
+        if (millis() - regulator_falled2 < 200) {
+          return;
+        }
+        regulator_falled2 = millis();
+        tetrimino2.moveDown();
+      }, speeds[level - 1]);
+      //this is of p5.js and used to set the initial properties of objects and variables
+      function setup() {
+        createCanvas(900, 600);
+        // this is global, not const, not var, not let
+        gameBoard = new GameBoard();
+        createMappingBaseTetriminos();
+        tetrimino = new Tetrimino();
+        tetrimino2 = new TetriminoTwo();
+        resizeCanvas(
+          gameBoard.width_gameboard + 2 * gameboard_margin,
+          gameBoard.high_gameboard + 2 * gameboard_margin + gameBoard.cell_side
+        );
+      }
+      // this is of p5.js and used to give precise drawing instructions on the canvas
+      function draw() {
+        clear(); // transparent background
+        paintScore();
+        paintLevel();
+        gameBoard.paint();
+        tetrimino.paint();
+        tetrimino2.paint();
+        keyEventsTetris();
+      }
+      // Points
+      function paintScore() {
+        push();
+        textSize(20);
+        strokeWeight(2);
+        stroke("black");
+        fill("white");
+        text(
+          `Points Player One: ${made_lines}`,
+          gameBoard.position.x * 5,
+          gameBoard.position.y - gameBoard.cell_side / 2
+        );
+        pop();
+        push();
+        textSize(20);
+        strokeWeight(2);
+        stroke("black");
+        fill("white");
+        text(
+          `Points Player Two: ${made_lines2}`,
+          gameBoard.position.x * 36,
+          gameBoard.position.y - gameBoard.cell_side / 2
+        );
+        pop();
+      }
+      // Level
+      function paintLevel() {
+        push();
+        textSize(20);
+        strokeWeight(2);
+        stroke("black");
+        fill("white");
+        text(
+          `Level ${level}`,
+          gameBoard.position.x * 27,
+          gameBoard.position.y - gameBoard.cell_side / 2
+        );
+        pop();
+      }
+
+      let limit_regulator_speed_keys = 100;
+      function keyEventsTetris() {
+        if (millis() - regulator_speed_keys < limit_regulator_speed_keys) {
+          return;
+        }
+        limit_regulator_speed_keys = 100;
+        regulator_speed_keys = millis();
+        // game controls player1
+        if (keyIsDown(68)) {
+          tetrimino.moveRight();
+          regulator_falled = millis();
+        }
+        if (keyIsDown(65)) {
+          tetrimino.moveLeft();
+          regulator_falled = millis();
+        }
+        if (keyIsDown(87)) {
+          tetrimino.rotate();
+          regulator_falled = millis();
+        }
+        if (keyIsDown(83)) {
+          limit_regulator_speed_keys = 150;
+          tetrimino.moveDown();
+          regulator_falled = millis();
+        }
+        // This key is ENTER
+        if (keyIsDown(32)) {
+          limit_regulator_speed_keys = 200;
+          tetrimino.setBackground();
+          regulator_falled = millis();
+        }
+
+        // game controls player2
+        if (keyIsDown(RIGHT_ARROW)) {
+          tetrimino2.moveRight();
+          regulator_falled2 = millis();
+        }
+        if (keyIsDown(LEFT_ARROW)) {
+          tetrimino2.moveLeft();
+          regulator_falled2 = millis();
+        }
+        if (keyIsDown(UP_ARROW)) {
+          tetrimino2.rotate();
+          regulator_falled2 = millis();
+        }
+        if (keyIsDown(DOWN_ARROW)) {
+          limit_regulator_speed_keys = 150;
+          tetrimino2.moveDown();
+          regulator_falled2 = millis();
+        }
+        // This key is ENTER
+        if (keyIsDown(13)) {
+          limit_regulator_speed_keys = 200;
+          tetrimino2.setBackground();
+          regulator_falled2 = millis();
+        }
+      }
+    </script>
+  </body>
+</html>

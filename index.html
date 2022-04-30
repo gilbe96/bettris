@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bettris</title>
+    <link rel="stylesheet" href="support/css/style.css" />
+    <script src="support/js/p5.min.js"></script>
+    <script src="support/js/backGround.js"></script>
+    <script src="support/js/jquery/3.4.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="openRules" class="modalDialog">
+      <div class="modalContent onePlayer">
+        <div>
+          <a onclick="closeRules()" title="Close" class="close">X</a>
+          <h2>Rules</h2>
+          <p class="text-menu">
+            This game resembles the original Tetris, the objective of this is
+            accumulate the biggest points count before the top is reached. By
+            the way, it has competitive mode for you have fun with yours
+            friends, the winner is the one have more points and there is a
+            penalty de -10 points for whom get to the top first. Enjoy it.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="openControls" class="modalDialog">
+      <div class="modalContent controls">
+        <div>
+          <a onclick="closeControls()" title="Close" class="close">X</a>
+          <h2>Controls</h2>
+          <h3>One Player</h3>
+          <p class="text-menu">↑ - Turn</p>
+          <p class="text-menu">← - Left</p>
+          <p class="text-menu">→ - Rigth</p>
+          <p class="text-menu">↓ - Down</p>
+          <p class="text-menu">ENTER - Fast Down</p>
+          <h3>Two Players</h3>
+          <div class="two-players">
+            <div class="one-content">
+              <p class="text-menu">Player 1</p>
+              <p class="text-menu">W - Turn</p>
+              <p class="text-menu">A - Left</p>
+              <p class="text-menu">D - Rigth</p>
+              <p class="text-menu">S - Down</p>
+              <p class="text-menu">SPACE - Fast Down</p>
+            </div>
+            <div class="two-content">
+              <p class="text-menu">Player 2</p>
+              <p class="text-menu">↑ - Turn</p>
+              <p class="text-menu">← - Left</p>
+              <p class="text-menu">→ - Rigth</p>
+              <p class="text-menu">↓ - Down</p>
+              <p class="text-menu">Enter - Fast Down</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-outside">
+      <div class="menu-inside">
+        <img src="support/img/logo_bettris.jpg" class="img-rounded" />
+        <div>
+          <label id="label-one" class="form-control" style="color: white">
+            <input
+              id="input-one"
+              type="radio"
+              name="radio"
+              checked
+              onclick="selectOption()"
+            />
+            1 Player
+          </label>
+          <label
+            id="label-two"
+            class="form-control"
+            style="color: rgb(175, 167, 179)"
+          >
+            <input
+              id="input-two"
+              type="radio"
+              name="radio"
+              onclick="selectOption()"
+            />
+            2 Players
+          </label>
+        </div>
+        <div>
+          <button onclick="openRules()" class="button">Rules</button>
+          <button onclick="openControls()" class="button">Controls</button>
+          <a href="onePlayer.html" id="button-play"
+            ><button id="action-button" class="button">Play</button></a
+          >
+        </div>
+      </div>
+    </div>
+    <audio id="audio" loop="true">
+      <source src="support/audio/menu.mp3" type="audio/mp3" />
+    </audio>
+    <script>
+      function openRules() {
+        document.getElementById("audio").pause();
+        document.getElementById("openRules").style.display = "block";
+      }
+      function closeRules() {
+        document.getElementById("audio").play();
+        document.getElementById("openRules").style.display = "none";
+      }
+
+      function openControls() {
+        document.getElementById("audio").pause();
+        document.getElementById("openControls").style.display = "block";
+      }
+      function closeControls() {
+        document.getElementById("audio").play();
+        document.getElementById("openControls").style.display = "none";
+      }
+
+      // music
+      $(document).ready(function () {
+        document.getElementById("audio").play();
+      });
+
+      function selectOption() {
+        if (document.getElementById("input-one").checked) {
+          document.getElementById("label-one").style.color = "white";
+          document.getElementById("label-two").style.color =
+            "rgb(175, 167, 179)";
+          document.getElementById("button-play").href = "onePlayer.html";
+        } else {
+          document.getElementById("label-one").style.color =
+            "rgb(175, 167, 179)";
+          document.getElementById("label-two").style.color = "white";
+          document.getElementById("button-play").href = "twoPlayer.html";
+        }
+      }
+    </script>
+  </body>
+</html>

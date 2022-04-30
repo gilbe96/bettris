@@ -1,0 +1,182 @@
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: steelblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-control {
+  font-family: system-ui, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1.1;
+  padding: 30px;
+}
+.button {
+  background-color: #242125; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 22px;
+  font-style: italic;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+.button:hover {
+  background-color: #555555;
+  color: white;
+}
+input {
+  cursor: pointer;
+}
+label {
+  cursor: pointer;
+}
+.menu-outside {
+  display: flex;
+  background-color: rgb(32, 35, 39);
+  height: 300px;
+  width: 500px;
+  border-radius: 10px;
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.6));
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+}
+.menu-inside {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(10, 48, 80);
+  height: 280px;
+  width: 480px;
+  border-radius: 10px;
+  justify-content: center;
+}
+img {
+  height: 130px;
+  width: 280px;
+}
+canvas {
+    filter: drop-shadow(5px 5px 5px rgb(0, 0, 0, 0.4));
+}
+/* MODAL */
+
+.modalDialog {
+	position: fixed;
+	font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99999;
+	display:none;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: auto;
+}
+.modalDialog > div {
+	width: 400px;
+  height: 300px;
+	position: relative;
+  margin-top: 1em;
+  margin-left: 33%;
+	padding: 20px 20px 20px 20px;
+	border-radius: 10px;
+	background: #fff;
+	background: -moz-linear-gradient(#fff, rgb(146, 139, 235));
+	background: -webkit-linear-gradient(#fff, rgb(146, 139, 235));
+	background: -o-linear-gradient(#fff, rgb(146, 139, 235));
+  -webkit-transition: opacity 400ms ease-in;
+-moz-transition: opacity 400ms ease-in;
+transition: opacity 400ms ease-in;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.modalDialog .onePlayer {
+  width: 280px;
+  margin-left: 37%;
+}
+.modalDialog .controls {
+  height: 550px;
+}
+.close {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+  cursor: pointer;
+}
+.close:hover {
+  background: #4f6d74;
+}
+.modalContent p {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: center;
+}
+
+.modalContent .text-menu {
+  text-align: justify;
+}
+
+.modalContent .two-players {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalContent .two-players .two-content {
+  margin-left: 5em;
+}
+
+.modalContent h2 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-align: center;
+}
+.modalContent h3 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-align: center;
+}
+.modalButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button {
+  padding: 5px 20px;
+  margin: 10px;
+  background-color: rgb(47, 47, 126);
+  color: whitesmoke;
+  border: 0;
+  border-radius: 10px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 120%;
+}
+button:hover {
+  cursor: pointer;
+  background-color: rgb(51, 90, 122);
+}
